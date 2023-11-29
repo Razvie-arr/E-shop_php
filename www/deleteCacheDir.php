@@ -23,4 +23,5 @@ function delete_directory($dirname) {
     rmdir($dirname);
 }
 
+
 delete_directory(__DIR__.'/../temp/cache');
