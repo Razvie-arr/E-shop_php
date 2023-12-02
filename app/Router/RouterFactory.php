@@ -16,6 +16,8 @@ final class RouterFactory{
 
 	  $frontRouter = new RouteList('Front');
     $frontRouter->addRoute('produkty[/kategorie-<category>]', 'Product:list');  //pokud je do adresy zakomponována také proměnná category, je doplněna do adresy
+    $frontRouter->addRoute('kontakty','Contact:default');
+    $frontRouter->addRoute('onas','About:default');
     $frontRouter->addRoute('produkty[/kategorie-<category>]/<url>', 'Product:show');  //pokud je do adresy zakomponována také proměnná category, je doplněna prostřední část adresy
 		$frontRouter->addRoute('<presenter=Homepage>/<action=default>[/<id>]');
 
