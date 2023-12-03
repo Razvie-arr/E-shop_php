@@ -91,6 +91,9 @@ class ProductEditForm extends Form{
     $this->addCheckbox('available', 'Nabízeno ke koupi')
       ->setDefaultValue(true);
 
+      $this->addCheckbox('recommend', 'Doporučujeme na homepage')
+          ->setDefaultValue(false);
+
     #region obrázek
     $photoUpload=$this->addUpload('photo','Fotka produktu');
     //pokud není zadané ID produktu, je nahrání fotky povinné
@@ -126,7 +129,7 @@ class ProductEditForm extends Form{
         }else{
           $product=new Product();
         }
-        $product->assign($values,['title','url','description','available']);
+        $product->assign($values,['title','url','description','available','recommend']);
         $product->price=floatval($values['price']);
         $this->productsFacade->saveProduct($product);
         $this->setValues(['productId'=>$product->productId]);
