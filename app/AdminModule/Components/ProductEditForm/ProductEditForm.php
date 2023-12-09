@@ -131,6 +131,12 @@ class ProductEditForm extends Form{
         }
         $product->assign($values,['title','url','description','available','recommend']);
         $product->price=floatval($values['price']);
+
+        if (isset($values['categoryId'])) {
+            $category = $this->categoriesFacade->getCategory($values['categoryId']);
+            $product->category = $category;
+        }
+
         $this->productsFacade->saveProduct($product);
         $this->setValues(['productId'=>$product->productId]);
 
