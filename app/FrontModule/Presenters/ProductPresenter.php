@@ -41,7 +41,11 @@ class ProductPresenter extends BasePresenter{
      */
     public function renderList():void {
         //TODO tady by mělo přibýt filtrování podle kategorie, stránkování atp.
-        $this->template->products = $this->productsFacade->findProducts(['order'=>'title']);
+        $findArray = ['order' => 'title'];
+        if (isset($this->category)) {
+            $findArray['category_id'] = $this->category;
+        }
+        $this->template->products = $this->productsFacade->findProducts($findArray);
     }
 
     protected function createComponentProductCartForm():Multiplier {
