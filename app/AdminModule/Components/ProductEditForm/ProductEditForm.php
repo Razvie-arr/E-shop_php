@@ -166,7 +166,9 @@ class ProductEditForm extends Form{
         'title'=>$values->title,
         'url'=>$values->url,
         'description'=>$values->description,
-        'price'=>$values->price
+        'price'=>$values->price,
+        'available'=>$values->available,
+        'recommend'=>$values->recommend
       ];
     }
     parent::setDefaults($values, $erase);
