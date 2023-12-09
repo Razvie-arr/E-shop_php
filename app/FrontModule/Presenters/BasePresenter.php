@@ -6,6 +6,7 @@ use App\FrontModule\Components\CartControl\CartControl;
 use App\FrontModule\Components\CartControl\CartControlFactory;
 use App\FrontModule\Components\UserLoginControl\UserLoginControl;
 use App\FrontModule\Components\UserLoginControl\UserLoginControlFactory;
+use App\Model\Facades\CategoriesFacade;
 use Nette\Application\AbortException;
 use Nette\Application\ForbiddenRequestException;
 
@@ -16,8 +17,14 @@ use Nette\Application\ForbiddenRequestException;
 abstract class BasePresenter extends \Nette\Application\UI\Presenter {
   private UserLoginControlFactory $userLoginControlFactory;
   private CartControlFactory $cartControlFactory;
+  private CategoriesFacade $categoriesFacade;
 
-  /**
+  public function beforeRender() {
+      parent::beforeRender();
+      $this->template->categories = $this->categoriesFacade->findCategories();
+  }
+
+    /**
    * @throws ForbiddenRequestException
    * @throws AbortException
    */
@@ -60,6 +67,10 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter {
 
   public function injectCartControlFactory(CartControlFactory $cartControlFactory):void {
     $this->cartControlFactory=$cartControlFactory;
+  }
+
+  public function injectCategoriesFacade(CategoriesFacade $categoriesFacade): void {
+      $this->categoriesFacade = $categoriesFacade;
   }
   #endregion injections
 }
