@@ -8,11 +8,7 @@
 
     <div class="col mb-5">
         <div class="card h-100">
-            {if $product->available}
-                <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Skladem</div>
-            {else}
-                <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Není skladem</div>
-            {/if}
+            <div class="badge {if $product->available}bg-success{else}bg-danger{/if} text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{if $product->available}Skladem{else}Není skladem{/if}</div>
             <a href="{plink Product:show url=>$product->url}" ><img class="card-img-top p-4 pb-0" style="object-fit: contain;" height="250" src="{$basePath}/img/products/{$product->productId}.{$product->photoExtension}" alt="{$product->title}" /></a>
             <div class="card-body p-4">
                 <div class="text-center">
