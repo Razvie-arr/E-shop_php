@@ -5,9 +5,14 @@
 
 <section class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center" n:if="!empty($products)">
     {foreach $products as $product}
+
     <div class="col mb-5">
         <div class="card h-100">
-            <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Skladem</div>
+            {if $product->available}
+                <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Skladem</div>
+            {else}
+                <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Není skladem</div>
+            {/if}
             <a href="{plink Product:show url=>$product->url}" ><img class="card-img-top p-4 pb-0" style="object-fit: contain;" height="250" src="{$basePath}/img/products/{$product->productId}.{$product->photoExtension}" alt="{$product->title}" /></a>
             <div class="card-body p-4">
                 <div class="text-center">
@@ -15,10 +20,12 @@
                     {$product->price} Kč
                 </div>
             </div>
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                {control "productCartForm-$product->productId"}
-                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Koupit</a></div>
-            </div>
+            {if $product->available}
+                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    {control "productCartForm-$product->productId"}
+                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Koupit</a></div>
+                </div>
+            {/if}
         </div>
     </div>
     {/foreach}
