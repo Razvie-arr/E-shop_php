@@ -17,7 +17,7 @@ use Nette\Application\ForbiddenRequestException;
 abstract class BasePresenter extends \Nette\Application\UI\Presenter {
   private UserLoginControlFactory $userLoginControlFactory;
   private CartControlFactory $cartControlFactory;
-  private CategoriesFacade $categoriesFacade;
+  protected CategoriesFacade $categoriesFacade;
 
   public function beforeRender() {
       parent::beforeRender();

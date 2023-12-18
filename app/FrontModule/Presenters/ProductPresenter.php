@@ -18,9 +18,6 @@ class ProductPresenter extends BasePresenter{
     private ProductsFacade $productsFacade;
     private ProductCartFormFactory $productCartFormFactory;
 
-    /** @persistent */
-    public string $category;
-
     /**
      * Akce pro zobrazení jednoho produktu
      * @param string $url
@@ -41,11 +38,15 @@ class ProductPresenter extends BasePresenter{
      */
     public function renderList():void {
         //TODO tady by mělo přibýt filtrování podle kategorie, stránkování atp.
+        $categoryName = "Všechny E-čtečky";
         $findArray = ['order' => 'title'];
         if (isset($_GET["kategorie"])) {
-            $findArray['category_id'] = $_GET["kategorie"];
+            $categoryId = $_GET["kategorie"];
+            $findArray['category_id'] = $categoryId;
+            $categoryName = $this->categoriesFacade->getCategory($categoryId)->title;
         }
         $this->template->products = $this->productsFacade->findProducts($findArray);
+        $this->template->categoryName = $categoryName;
     }
 
     protected function createComponentProductCartForm():Multiplier {
