@@ -3,8 +3,12 @@
 namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\ProductCartForm\ProductCartFormFactory;
+use App\FrontModule\Components\ProductCartForm\ProductCartFormTrait;
 use App\Model\Facades\ProductsFacade;
-class HomepagePresenter extends BasePresenter{
+
+class HomepagePresenter extends BasePresenter {
+
+    use ProductCartFormTrait;
 
     private ProductsFacade $productsFacade;
     private ProductCartFormFactory $productCartFormFactory;
@@ -13,8 +17,8 @@ class HomepagePresenter extends BasePresenter{
     /**
      * Akce pro vykreslení doporučených produktů
      */
-    public function renderDefault():void {
-        $this->template->products = $this->productsFacade->findProducts(['recommend'=>'1']);
+    public function renderDefault(): void {
+        $this->template->products = $this->productsFacade->findProducts(['recommend' => '1']);
 
         //bez toho na localhostu nefungují obrázky
         if ($_SERVER['SERVER_NAME'] == 'localhost') {
@@ -23,12 +27,12 @@ class HomepagePresenter extends BasePresenter{
     }
 
     #region injections
-    public function injectProductsFacade(ProductsFacade $productsFacade):void {
-        $this->productsFacade=$productsFacade;
+    public function injectProductsFacade(ProductsFacade $productsFacade): void {
+        $this->productsFacade = $productsFacade;
     }
 
-    public function injectProductCartFormFactory(ProductCartFormFactory $productCartFormFactory):void {
-        $this->productCartFormFactory=$productCartFormFactory;
+    public function injectProductCartFormFactory(ProductCartFormFactory $productCartFormFactory): void {
+        $this->productCartFormFactory = $productCartFormFactory;
     }
     #endregion injections
 
