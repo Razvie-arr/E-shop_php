@@ -1,9 +1,7 @@
 {varType App\Model\Entities\Cart $cart}
 
 {if empty($cart->items)}
-    košík je prázdný
-
-
+    <div class="alert alert-light"><b>V košíku nejsou žádné produkty</b></div>
 {else}
     <table class="table table-hover">
 
