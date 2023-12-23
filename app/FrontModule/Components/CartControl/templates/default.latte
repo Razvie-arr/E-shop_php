@@ -1,6 +1,7 @@
 {varType App\Model\Entities\Cart $cart}
 {snippet}
   <div>
+    <i class="bi-cart-fill me-1"></i>
     {if empty($cart) || $cart->getTotalCount()==0}
       košík je prázdný
     {else}

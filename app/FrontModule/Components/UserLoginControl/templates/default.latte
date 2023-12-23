@@ -1,11 +1,13 @@
 {snippet}
   <div {if !empty($class)}class="{$class}"{/if}>
     {if $user->isLoggedIn()}
+    <a href="{link logout!}" class="btn btn-outline-dark mx-2" type="submit">
+      <i class="bi-person-fill me-1"></i>
       <strong>{$user->identity->name}</strong>
-      -
-      <a href="{link logout!}">odhlásit se</a>
+      - Odhlásit se
+    </a>
     {else}
-      <a href="{link login!}">přihlásit se</a>
+    <a href="{link login!}" class="btn btn-outline-dark mx-2" type="submit"><i class="bi-person-fill me-1"></i>Přihlásit se</a>
     {/if}
   </div>
 {/snippet}
