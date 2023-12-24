@@ -20,3 +20,7 @@ input[type=submit]{
     --bs-btn-disabled-border-color: #212529;
     --bs-gradient: none;
 }
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    background-color: #212529;
+}
