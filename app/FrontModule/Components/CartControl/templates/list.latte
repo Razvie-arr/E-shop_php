@@ -6,15 +6,21 @@
     <table class="table table-hover">
 
         {foreach $cart->items as $item}
-            <tr>
+            <tr style="vertical-align:middle">
+                <td><img class="card-img-top" style="object-fit: contain;" height="100" src="{$basePath}/img/products/{$item->product->productId}.{$item->product->photoExtension}" alt="{$item->product->title}" /></td>
                 <th>{$item->product->title}</th>
+                <td>{if $item->product->available}Skladem{else}Není skladem{/if}</td>
+                <td>{$item->product->price|number:0,',',' '} Kč</td>
                 <td>{$item->count}</td>
                 <td>
                     <a href="{link remove! $item->cartItemId}">odebrat</a>
                 </td>
             </tr>
         {/foreach}
-
+        <tr style="border-top: 2px black solid;">
+            <td colspan="2">Celková cena</td>
+            <th style="text-align: center" colspan="4">{$cart->getTotalPrice()|number:0,',',' '} Kč</th>
+        </tr>
     </table>
 
 
