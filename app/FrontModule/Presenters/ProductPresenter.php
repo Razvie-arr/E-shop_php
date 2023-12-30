@@ -48,11 +48,6 @@ class ProductPresenter extends BasePresenter {
         }
         $this->template->products = $this->productsFacade->findProducts($findArray);
         $this->template->categoryName = $categoryName;
-
-        //bez toho na localhostu nefungují obrázky
-        if ($_SERVER['SERVER_NAME'] == 'localhost') {
-            $this->template->basePath = "https://eso.vse.cz/~bret04/eshop";
-        }
     }
 
     #region injections

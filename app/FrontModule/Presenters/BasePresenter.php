@@ -42,6 +42,11 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter {
                 $this->redirect('User:login', ['backlink' => $this->storeRequest()]);
             }
         }
+
+        //bez toho na localhostu nefungují obrázky
+        if ($_SERVER['SERVER_NAME'] == 'localhost') {
+            $this->template->basePath = "https://eso.vse.cz/~bret04/eshop";
+        }
     }
 
     /**
