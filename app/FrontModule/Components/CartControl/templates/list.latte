@@ -7,9 +7,11 @@
 
         {foreach $cart->items as $item}
             <tr style="vertical-align:middle">
-                <td><img class="card-img-top" style="object-fit: contain;" height="100" src="{$basePath}/img/products/{$item->product->productId}.{$item->product->photoExtension}" alt="{$item->product->title}" /></td>
+                <td><img class="card-img-top" style="object-fit: contain;" height="100"
+                         src="{$basePath}/img/products/{$item->product->productId}.{$item->product->photoExtension}"
+                         alt="{$item->product->title}"/></td>
                 <th>{$item->product->title}</th>
-                <td>{if $item->product->available}Skladem{else}Není skladem{/if}</td>
+                <td>{if $item->product->stock > 0}Skladem{else}Není skladem{/if}</td>
                 <td>{$item->product->price|number:0,',',' '} Kč</td>
                 <td>{$item->count}</td>
                 <td>
@@ -23,5 +25,5 @@
         </tr>
     </table>
 
-   <div class="text-end"> <a href="{plink Order:default}" class="btn btn-outline-dark m-4">Pokračovat</a></div>
+    <div class="text-end"><a href="{plink Order:default}" class="btn btn-outline-dark m-4">Pokračovat</a></div>
 {/if}
