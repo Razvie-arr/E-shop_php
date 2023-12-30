@@ -13,16 +13,16 @@ use LeanMapper\Entity;
  * @property string $description
  * @property float $price
  * @property string $photoExtension = ''
- * @property bool $available = true
+ * @property int $stock
  * @property bool $recommend = false
  * @property Category|null $category m:hasOne
  */
-class Product extends Entity implements \Nette\Security\Resource{
+class Product extends Entity implements \Nette\Security\Resource {
 
-  /**
-   * @inheritDoc
-   */
-  function getResourceId():string{
-    return 'Product';
-  }
+    /**
+     * @inheritDoc
+     */
+    function getResourceId(): string {
+        return 'Product';
+    }
 }
