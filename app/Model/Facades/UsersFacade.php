@@ -60,12 +60,34 @@ class UsersFacade {
     }
 
     /**
+     * @param $roleId
+     * @return Role
+     * @throws \Exception
+     */
+    public function getRole($roleId): Role {
+        return $this->roleRepository->findBy(['role_id' => $roleId]);
+    }
+
+    /**
      * Metoda pro uložení uživatele
      * @param User &$user
      * @return bool
      */
     public function saveUser(User &$user): bool {
         return (bool)$this->userRepository->persist($user);
+    }
+
+    /**
+     * Metoda pro smazání uživatele
+     * @param User $user
+     * @return bool
+     */
+    public function deleteUser(User $user): bool {
+        try {
+            return (bool)$this->userRepository->delete($user);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

@@ -17,7 +17,7 @@
                 <td class="text-nowrap">
                     <a href="{link edit id=>$listUser->userId}" class="btn btn-sm btn-outline-primary">upravit</a>
                     <a href="{link delete id=>$listUser->userId}"
-                       class="btn btn-sm btn-outline-danger">smazat</a>
+                       class="btn btn-sm btn-outline-danger {if !$user->isAllowed('User','delete')}disabled{/if}">smazat</a>
                 </td>
             </tr>
         {/foreach}
