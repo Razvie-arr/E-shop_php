@@ -10,7 +10,7 @@ use LeanMapper\Entity;
  * @package App\Model\Entities
  * @property int $objednavkaId
  * @property int|null $userId = null
- * @property ObjednavkaItem[] $items m:belongsToMany
+ * @property ObjednavkaItem[] $objednavkaItems m:belongsToMany
  * @property DateTime|null $objednavkaDate
  * @property string $objednavkaName
  * @property string $objednavkaEmail

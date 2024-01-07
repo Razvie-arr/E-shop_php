@@ -12,8 +12,8 @@ use LeanMapper\Entity;
  * @property int $objednavkaItemId
  * @property Product $product m:hasOne
  * @property Objednavka $objednavka m:hasOne
- * @property int $count = 0
- * @property float $ObjednavkaItemPrice
+ * @property int $objednavkaItemCount = 0
+ * @property float $objednavkaItemPrice
  */
 class ObjednavkaItem extends Entity{
 
