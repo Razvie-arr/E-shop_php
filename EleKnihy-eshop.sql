@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: localhost:3306
--- Vytvořeno: Sob 06. led 2024, 21:08
+-- Vytvořeno: Ned 07. led 2024, 01:35
 -- Verze serveru: 10.5.19-MariaDB-0+deb11u2
 -- Verze PHP: 8.1.20
 
@@ -42,7 +42,25 @@ INSERT INTO `cart` (`cart_id`, `user_id`, `last_modified`) VALUES
                                                                (881, NULL, '2024-01-05 20:29:14'),
                                                                (882, NULL, '2024-01-05 20:29:16'),
                                                                (883, NULL, '2024-01-05 20:29:17'),
-                                                               (884, NULL, '2024-01-05 20:29:22');
+                                                               (884, NULL, '2024-01-05 20:29:22'),
+                                                               (885, NULL, '2024-01-06 20:12:24'),
+                                                               (886, NULL, '2024-01-06 20:12:37'),
+                                                               (887, NULL, '2024-01-06 20:12:43'),
+                                                               (888, NULL, '2024-01-06 20:12:48'),
+                                                               (889, NULL, '2024-01-06 20:12:51'),
+                                                               (890, NULL, '2024-01-06 22:26:44'),
+                                                               (891, NULL, '2024-01-06 22:26:47'),
+                                                               (892, NULL, '2024-01-06 22:26:48'),
+                                                               (893, NULL, '2024-01-06 22:26:50'),
+                                                               (894, NULL, '2024-01-06 22:26:52'),
+                                                               (895, NULL, '2024-01-06 22:26:53'),
+                                                               (896, NULL, '2024-01-06 22:27:01'),
+                                                               (897, NULL, '2024-01-06 22:27:04'),
+                                                               (898, NULL, '2024-01-06 22:27:15'),
+                                                               (899, NULL, '2024-01-06 22:27:18'),
+                                                               (900, NULL, '2024-01-06 22:27:25'),
+                                                               (901, NULL, '2024-01-06 22:27:27'),
+                                                               (902, NULL, '2024-01-06 22:27:28');
 
 -- --------------------------------------------------------
 
@@ -56,6 +74,14 @@ CREATE TABLE `cart_item` (
                              `cart_id` int(11) NOT NULL,
                              `count` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+--
+-- Vypisuji data pro tabulku `cart_item`
+--
+
+INSERT INTO `cart_item` (`cart_item_id`, `product_id`, `cart_id`, `count`) VALUES
+                                                                               (31, 3, 889, 1),
+                                                                               (32, 7, 902, 1);
 
 -- --------------------------------------------------------
 
@@ -99,6 +125,38 @@ CREATE TABLE `forgotten_password` (
 INSERT INTO `forgotten_password` (`forgotten_password_id`, `user_id`, `code`, `created`) VALUES
                                                                                              (1, 1, 'k1lgd81ugt', '2023-12-25 16:02:37'),
                                                                                              (2, 1, '8fq8eluobd', '2023-12-25 16:03:17');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `objednavka`
+--
+
+CREATE TABLE `objednavka` (
+                              `objednavka_id` int(11) NOT NULL,
+                              `user_id` int(11) DEFAULT NULL,
+                              `objednavka_date` timestamp NOT NULL DEFAULT current_timestamp(),
+                              `objednavka_name` varchar(40) NOT NULL,
+                              `objednavka_email` varchar(255) NOT NULL,
+                              `objednavka_address` varchar(512) NOT NULL,
+                              `objednavka_phone` int(11) NOT NULL,
+                              `paid` tinyint(1) NOT NULL DEFAULT 0,
+                              `objednavka_price` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `objednavka_item`
+--
+
+CREATE TABLE `objednavka_item` (
+                                   `objednavka_item_id` int(11) NOT NULL,
+                                   `product_id` int(11) NOT NULL,
+                                   `objednavka_id` int(11) NOT NULL,
+                                   `count` int(11) NOT NULL,
+                                   `objednavka_item_price` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 -- --------------------------------------------------------
 
@@ -292,6 +350,21 @@ ALTER TABLE `forgotten_password`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexy pro tabulku `objednavka`
+--
+ALTER TABLE `objednavka`
+    ADD PRIMARY KEY (`objednavka_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexy pro tabulku `objednavka_item`
+--
+ALTER TABLE `objednavka_item`
+    ADD PRIMARY KEY (`objednavka_item_id`),
+  ADD UNIQUE KEY `product_id` (`product_id`,`objednavka_id`),
+  ADD KEY `objednavka_id` (`objednavka_id`);
+
+--
 -- Indexy pro tabulku `permission`
 --
 ALTER TABLE `permission`
@@ -337,13 +410,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pro tabulku `cart`
 --
 ALTER TABLE `cart`
-    MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=885;
+    MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=903;
 
 --
 -- AUTO_INCREMENT pro tabulku `cart_item`
 --
 ALTER TABLE `cart_item`
-    MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+    MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT pro tabulku `category`
@@ -356,6 +429,18 @@ ALTER TABLE `category`
 --
 ALTER TABLE `forgotten_password`
     MODIFY `forgotten_password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pro tabulku `objednavka`
+--
+ALTER TABLE `objednavka`
+    MODIFY `objednavka_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pro tabulku `objednavka_item`
+--
+ALTER TABLE `objednavka_item`
+    MODIFY `objednavka_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT pro tabulku `permission`
@@ -397,6 +482,13 @@ ALTER TABLE `cart_item`
 --
 ALTER TABLE `forgotten_password`
     ADD CONSTRAINT `forgotten_password_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Omezení pro tabulku `objednavka_item`
+--
+ALTER TABLE `objednavka_item`
+    ADD CONSTRAINT `objednavka_item_ibfk_1` FOREIGN KEY (`objednavka_id`) REFERENCES `objednavka` (`objednavka_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `objednavka_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Omezení pro tabulku `permission`
