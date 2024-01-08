@@ -52,7 +52,7 @@
                         {/foreach}
                     </ul>
                 </li>
-                {if $user->identity->roles[1] === 'admin'}
+                {if in_array("admin", $user->getRoles())}
                     <li class="nav-item"><a n:class="nav-link" href="{plink :Admin:Product:default}">Admin Panel</a>
                     </li>
                 {/if}
