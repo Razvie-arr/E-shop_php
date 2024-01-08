@@ -38,6 +38,30 @@ class ObjednavkaFacade{
     }
 
     /**
+     * Metoda pro smazání objednávky
+     * @param Objednavka $objednavka
+     * @return bool
+     */
+    public function deleteObjednavka(Objednavka $objednavka):bool {
+        try{
+            return (bool)$this->objednavkaRepository->delete($objednavka);
+        }catch (\Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * Metoda pro vyhledání objednávek
+     * @param array|null $params = null
+     * @param int $offset = null
+     * @param int $limit = null
+     * @return Objednavka[]
+     */
+    public function findObjednavky(array $params=null,int $offset=null,int $limit=null):array {
+        return $this->objednavkaRepository->findAllBy($params,$offset,$limit);
+    }
+
+    /**
      * Metoda pro smazání objednávky konkrétního uživatele
      * @param User|int $user
      */
