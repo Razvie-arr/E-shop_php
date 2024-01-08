@@ -4,12 +4,14 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components\OrderForm\OrderForm;
 use App\FrontModule\Components\OrderForm\OrderFormFactory;
+use App\Model\Facades\ObjednavkaFacade;
 use Nette;
 
 class OrderPresenter extends BasePresenter{
 
     private OrderFormFactory $orderFormFactory;
 
+    private ObjednavkaFacade $objednavkaFacade;
 
     /**
      * Formulář pro odeslání objednávky
@@ -41,7 +43,18 @@ class OrderPresenter extends BasePresenter{
         $form->onCancel[]=function()use($form){
             $this->redirect('Cart:default');
         };
+
+        $form->onFailed[]=function($message=null){
+            if (!empty($message)){
+                $this->flashMessage($message,'error');
+            }
+            $this->redirect('Cart:default');
+        };
         return $form;
+    }
+
+    public function injectObjednavkaFacade(ObjednavkaFacade $objednavkaFacade):void {
+        $this->objednavkaFacade=$objednavkaFacade;
     }
 
     public function injectOrderFormFactory(OrderFormFactory $orderFormFactory):void {
