@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: localhost:3306
--- Vytvořeno: Ned 07. led 2024, 01:35
+-- Vytvořeno: Pon 08. led 2024, 19:14
 -- Verze serveru: 10.5.19-MariaDB-0+deb11u2
 -- Verze PHP: 8.1.20
 
@@ -60,7 +60,130 @@ INSERT INTO `cart` (`cart_id`, `user_id`, `last_modified`) VALUES
                                                                (899, NULL, '2024-01-06 22:27:18'),
                                                                (900, NULL, '2024-01-06 22:27:25'),
                                                                (901, NULL, '2024-01-06 22:27:27'),
-                                                               (902, NULL, '2024-01-06 22:27:28');
+                                                               (902, NULL, '2024-01-06 22:27:28'),
+                                                               (903, NULL, '2024-01-07 20:08:35'),
+                                                               (904, NULL, '2024-01-07 20:52:44'),
+                                                               (905, NULL, '2024-01-07 20:52:52'),
+                                                               (906, NULL, '2024-01-07 21:46:52'),
+                                                               (907, NULL, '2024-01-07 21:47:01'),
+                                                               (908, NULL, '2024-01-07 21:47:04'),
+                                                               (909, NULL, '2024-01-07 21:47:08'),
+                                                               (910, NULL, '2024-01-07 21:47:11'),
+                                                               (911, 1, '2024-01-07 22:54:40'),
+                                                               (912, NULL, '2024-01-07 22:54:48'),
+                                                               (913, NULL, '2024-01-07 22:54:50'),
+                                                               (914, NULL, '2024-01-07 22:54:52'),
+                                                               (915, NULL, '2024-01-07 22:54:54'),
+                                                               (916, NULL, '2024-01-08 11:42:20'),
+                                                               (917, NULL, '2024-01-08 11:42:23'),
+                                                               (918, 3, '2024-01-08 16:42:46'),
+                                                               (919, NULL, '2024-01-08 11:42:27'),
+                                                               (920, NULL, '2024-01-08 11:42:38'),
+                                                               (921, NULL, '2024-01-08 11:42:47'),
+                                                               (922, NULL, '2024-01-08 11:42:57'),
+                                                               (923, NULL, '2024-01-08 12:06:34'),
+                                                               (924, NULL, '2024-01-08 12:06:36'),
+                                                               (925, NULL, '2024-01-08 13:54:01'),
+                                                               (926, NULL, '2024-01-08 13:54:02'),
+                                                               (927, NULL, '2024-01-08 13:54:04'),
+                                                               (928, NULL, '2024-01-08 13:54:09'),
+                                                               (929, NULL, '2024-01-08 13:54:12'),
+                                                               (930, NULL, '2024-01-08 13:54:13'),
+                                                               (931, NULL, '2024-01-08 13:54:14'),
+                                                               (932, NULL, '2024-01-08 13:54:16'),
+                                                               (933, NULL, '2024-01-08 13:54:17'),
+                                                               (934, NULL, '2024-01-08 13:54:19'),
+                                                               (935, NULL, '2024-01-08 13:54:20'),
+                                                               (936, NULL, '2024-01-08 13:54:22'),
+                                                               (937, NULL, '2024-01-08 13:54:25'),
+                                                               (938, NULL, '2024-01-08 13:54:28'),
+                                                               (939, NULL, '2024-01-08 13:54:28'),
+                                                               (940, NULL, '2024-01-08 16:42:36'),
+                                                               (941, NULL, '2024-01-08 16:42:38'),
+                                                               (942, NULL, '2024-01-08 17:09:41'),
+                                                               (943, NULL, '2024-01-08 17:09:46'),
+                                                               (944, NULL, '2024-01-08 17:10:12'),
+                                                               (945, NULL, '2024-01-08 17:10:15'),
+                                                               (946, NULL, '2024-01-08 17:10:24'),
+                                                               (947, NULL, '2024-01-08 17:10:26'),
+                                                               (948, NULL, '2024-01-08 17:13:46'),
+                                                               (949, NULL, '2024-01-08 17:14:19'),
+                                                               (950, NULL, '2024-01-08 17:14:21'),
+                                                               (951, NULL, '2024-01-08 17:23:01'),
+                                                               (952, NULL, '2024-01-08 17:23:03'),
+                                                               (953, NULL, '2024-01-08 17:23:37'),
+                                                               (954, NULL, '2024-01-08 17:24:12'),
+                                                               (955, NULL, '2024-01-08 17:33:07'),
+                                                               (956, NULL, '2024-01-08 18:05:22'),
+                                                               (957, NULL, '2024-01-08 18:05:24'),
+                                                               (958, NULL, '2024-01-08 18:05:28'),
+                                                               (959, NULL, '2024-01-08 18:07:43'),
+                                                               (960, NULL, '2024-01-08 18:09:59'),
+                                                               (961, NULL, '2024-01-08 18:10:00'),
+                                                               (962, NULL, '2024-01-08 18:10:00'),
+                                                               (963, NULL, '2024-01-08 18:10:15'),
+                                                               (964, NULL, '2024-01-08 18:10:16'),
+                                                               (965, NULL, '2024-01-08 18:10:18'),
+                                                               (966, NULL, '2024-01-08 18:10:19'),
+                                                               (967, NULL, '2024-01-08 18:10:20'),
+                                                               (968, NULL, '2024-01-08 18:10:24'),
+                                                               (969, NULL, '2024-01-08 18:10:25'),
+                                                               (970, NULL, '2024-01-08 18:10:38'),
+                                                               (971, NULL, '2024-01-08 18:10:40'),
+                                                               (972, NULL, '2024-01-08 18:10:41'),
+                                                               (973, NULL, '2024-01-08 18:10:48'),
+                                                               (974, NULL, '2024-01-08 18:10:55'),
+                                                               (975, NULL, '2024-01-08 18:11:07'),
+                                                               (976, NULL, '2024-01-08 18:11:08'),
+                                                               (977, NULL, '2024-01-08 18:11:11'),
+                                                               (978, NULL, '2024-01-08 18:11:12'),
+                                                               (979, NULL, '2024-01-08 18:11:15'),
+                                                               (980, NULL, '2024-01-08 18:11:17'),
+                                                               (981, NULL, '2024-01-08 18:11:19'),
+                                                               (982, NULL, '2024-01-08 18:11:27'),
+                                                               (983, NULL, '2024-01-08 18:11:28'),
+                                                               (984, NULL, '2024-01-08 18:11:28'),
+                                                               (985, NULL, '2024-01-08 18:11:30'),
+                                                               (986, NULL, '2024-01-08 18:11:32'),
+                                                               (987, 4, '2024-01-08 18:13:02'),
+                                                               (988, NULL, '2024-01-08 18:13:03'),
+                                                               (989, NULL, '2024-01-08 18:13:05'),
+                                                               (990, NULL, '2024-01-08 18:13:13'),
+                                                               (991, NULL, '2024-01-08 18:13:13'),
+                                                               (992, NULL, '2024-01-08 18:13:15'),
+                                                               (993, NULL, '2024-01-08 18:13:16'),
+                                                               (994, NULL, '2024-01-08 18:13:17'),
+                                                               (995, NULL, '2024-01-08 18:13:45'),
+                                                               (996, NULL, '2024-01-08 18:13:46'),
+                                                               (997, NULL, '2024-01-08 18:13:48'),
+                                                               (998, NULL, '2024-01-08 18:13:48'),
+                                                               (999, NULL, '2024-01-08 18:13:50'),
+                                                               (1000, NULL, '2024-01-08 18:13:50'),
+                                                               (1001, NULL, '2024-01-08 18:13:51'),
+                                                               (1002, NULL, '2024-01-08 18:13:52'),
+                                                               (1003, NULL, '2024-01-08 18:13:53'),
+                                                               (1004, NULL, '2024-01-08 18:13:55'),
+                                                               (1005, NULL, '2024-01-08 18:13:57'),
+                                                               (1006, NULL, '2024-01-08 18:14:00'),
+                                                               (1007, NULL, '2024-01-08 18:14:02'),
+                                                               (1008, NULL, '2024-01-08 18:14:04'),
+                                                               (1009, NULL, '2024-01-08 18:14:05'),
+                                                               (1010, NULL, '2024-01-08 18:14:06'),
+                                                               (1011, NULL, '2024-01-08 18:14:07'),
+                                                               (1012, NULL, '2024-01-08 18:14:20'),
+                                                               (1013, NULL, '2024-01-08 18:14:23'),
+                                                               (1014, NULL, '2024-01-08 18:14:28'),
+                                                               (1015, NULL, '2024-01-08 18:14:30'),
+                                                               (1016, NULL, '2024-01-08 18:14:31'),
+                                                               (1017, NULL, '2024-01-08 18:14:33'),
+                                                               (1018, NULL, '2024-01-08 18:14:34'),
+                                                               (1019, NULL, '2024-01-08 18:14:37'),
+                                                               (1020, NULL, '2024-01-08 18:14:39'),
+                                                               (1021, NULL, '2024-01-08 18:14:41'),
+                                                               (1022, NULL, '2024-01-08 18:14:45'),
+                                                               (1023, NULL, '2024-01-08 18:14:47'),
+                                                               (1024, NULL, '2024-01-08 18:14:49'),
+                                                               (1025, NULL, '2024-01-08 18:14:49');
 
 -- --------------------------------------------------------
 
@@ -81,7 +204,11 @@ CREATE TABLE `cart_item` (
 
 INSERT INTO `cart_item` (`cart_item_id`, `product_id`, `cart_id`, `count`) VALUES
                                                                                (31, 3, 889, 1),
-                                                                               (32, 7, 902, 1);
+                                                                               (32, 7, 902, 1),
+                                                                               (33, 3, 905, 1),
+                                                                               (34, 3, 911, 1),
+                                                                               (35, 3, 915, 1),
+                                                                               (36, 2, 918, 2);
 
 -- --------------------------------------------------------
 
@@ -123,8 +250,7 @@ CREATE TABLE `forgotten_password` (
 --
 
 INSERT INTO `forgotten_password` (`forgotten_password_id`, `user_id`, `code`, `created`) VALUES
-                                                                                             (1, 1, 'k1lgd81ugt', '2023-12-25 16:02:37'),
-                                                                                             (2, 1, '8fq8eluobd', '2023-12-25 16:03:17');
+    (2, 1, '8fq8eluobd', '2023-12-25 16:03:17');
 
 -- --------------------------------------------------------
 
@@ -141,8 +267,15 @@ CREATE TABLE `objednavka` (
                               `objednavka_address` varchar(512) NOT NULL,
                               `objednavka_phone` int(11) NOT NULL,
                               `paid` tinyint(1) NOT NULL DEFAULT 0,
-                              `objednavka_price` decimal(10,2) NOT NULL
+                              `objednavka_price` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+--
+-- Vypisuji data pro tabulku `objednavka`
+--
+
+INSERT INTO `objednavka` (`objednavka_id`, `user_id`, `objednavka_date`, `objednavka_name`, `objednavka_email`, `objednavka_address`, `objednavka_phone`, `paid`, `objednavka_price`) VALUES
+    (2, NULL, '2024-01-08 12:16:17', 'Vlad Biastinov', 'vladikbyastinov@gmail.com', 'as', 123123, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -180,9 +313,9 @@ INSERT INTO `permission` (`permission_id`, `role_id`, `resource_id`, `action`, `
                                                                                            (22, 'admin', 'Admin:Category', '', 'allow'),
                                                                                            (21, 'admin', 'Admin:Dashboard', '', 'allow'),
                                                                                            (24, 'admin', 'Admin:Product', '', 'allow'),
+                                                                                           (45, 'admin', 'Admin:User', '', 'allow'),
                                                                                            (12, 'admin', 'Category', '', 'allow'),
                                                                                            (23, 'admin', 'Product', '', 'allow'),
-                                                                                           (28, 'authenticated', 'Admin:Product', '', 'allow'),
                                                                                            (38, 'authenticated', 'Front:About', '', 'allow'),
                                                                                            (39, 'authenticated', 'Front:Cart', '', 'allow'),
                                                                                            (36, 'authenticated', 'Front:Contact', '', 'allow'),
@@ -194,7 +327,6 @@ INSERT INTO `permission` (`permission_id`, `role_id`, `resource_id`, `action`, `
                                                                                            (9, 'authenticated', 'Front:User', 'login', 'allow'),
                                                                                            (10, 'authenticated', 'Front:User', 'logout', 'allow'),
                                                                                            (27, 'authenticated', 'Product', '', 'allow'),
-                                                                                           (26, 'guest', 'Admin:Product', '', 'allow'),
                                                                                            (37, 'guest', 'Front:About', '', 'allow'),
                                                                                            (40, 'guest', 'Front:Cart', '', 'allow'),
                                                                                            (35, 'guest', 'Front:Contact', '', 'allow'),
@@ -262,6 +394,7 @@ INSERT INTO `resource` (`resource_id`) VALUES
                                            ('Admin:Dashboard'),
                                            ('Admin:Error4xx'),
                                            ('Admin:Product'),
+                                           ('Admin:User'),
                                            ('Category'),
                                            ('Front:About'),
                                            ('Front:Cart'),
@@ -272,7 +405,8 @@ INSERT INTO `resource` (`resource_id`) VALUES
                                            ('Front:Order'),
                                            ('Front:Product'),
                                            ('Front:User'),
-                                           ('Product');
+                                           ('Product'),
+                                           ('User');
 
 -- --------------------------------------------------------
 
@@ -314,8 +448,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_id`, `name`, `email`, `facebook_id`, `role_id`, `password`) VALUES
                                                                                           (1, 'test', 'test@vse.cz', NULL, 'admin', '$2y$10$xJYPkow4DuysC3nh6X0O3.GNqK5G1R1FAWL2s8MmfflntTWaPH3tm'),
-                                                                                          (3, 'Vlad Biastinov', 'vladikbyastinov@gmail.com', NULL, NULL, '$2y$10$XqO023oU.5gp6xKPm5umaO47by8Fq.D1yeEQZ/SoNEypaQdZGStKa'),
-                                                                                          (4, 'Vlad Biastinov', 'biav01@vse.cz', NULL, NULL, '$2y$10$Lspptw4qk7V8/ZCDWIv7beP7MQ3.BtmXtuzsJ1J5rmzsNYWlqNw0a');
+                                                                                          (3, 'Vlad Biastinov', 'vladikbyastinov@gmail.com', NULL, 'admin', '$2y$10$cYXA2k7gll/DFfcPMXERxek1rT1xa84VurSb0Y2vSclXVkrEn82MG'),
+                                                                                          (4, 'Vlad Biastinov Authenticated', 'biav01@vse.cz', NULL, 'authenticated', '$2y$10$42fI1288Pf1Cq0Bx5ktBpeBtc.J2Ymm60HVJf6ke/1N06dJmXzRn2');
 
 --
 -- Indexy pro exportované tabulky
@@ -410,13 +544,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pro tabulku `cart`
 --
 ALTER TABLE `cart`
-    MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=903;
+    MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1026;
 
 --
 -- AUTO_INCREMENT pro tabulku `cart_item`
 --
 ALTER TABLE `cart_item`
-    MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+    MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT pro tabulku `category`
@@ -434,7 +568,7 @@ ALTER TABLE `forgotten_password`
 -- AUTO_INCREMENT pro tabulku `objednavka`
 --
 ALTER TABLE `objednavka`
-    MODIFY `objednavka_id` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `objednavka_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pro tabulku `objednavka_item`
@@ -446,7 +580,7 @@ ALTER TABLE `objednavka_item`
 -- AUTO_INCREMENT pro tabulku `permission`
 --
 ALTER TABLE `permission`
-    MODIFY `permission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+    MODIFY `permission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT pro tabulku `product`
