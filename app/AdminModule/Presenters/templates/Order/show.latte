@@ -1,0 +1,42 @@
+{varType App\Model\Entities\Objednavka $objednavka}
+{block content}
+
+<div class="container px-4 px-lg-5 mt-5">
+<h1 n:block="title">Informace o objednávce - ID={$objednavka->objednavkaId}</h1>
+   <ul>
+       <li>Datum objednávky - {$objednavka->objednavkaDate}</li>
+       <li>Telefon zákazníka - {$objednavka->objednavkaPhone}</li>
+       <li>Adresa objednávky - {$objednavka->objednavkaAddress}</li>
+       <li>Email zákazníka - {$objednavka->objednavkaEmail}</li>
+       <li>Jméno na objednávce - {$objednavka->objednavkaName}</li>
+       <li>Status - {$objednavka->status}</li>
+       <li>Zaplaceno - {if $objednavka->paid}Ano{else}Ne{/if}</li>
+   </ul>
+{if empty($objednavka->objednavkaItems)}
+    <div class="alert alert-light"><b>Objednávka je prázdná.</b></div>
+{else}
+    <table class="table table-hover">
+        <tr>
+            <th scope="col">Obrázek</th>
+            <th scope="col">Název</th>
+            <th scope="col">Cena za kus</th>
+            <th scope="col">Počet kusů</th>
+        </tr>
+        {foreach $objednavka->objednavkaItems as $item}
+            <tr style="vertical-align:middle">
+                <td><img class="card-img-top" style="object-fit: contain;" height="100"
+                         src="{$basePath}/img/products/{$item->product->productId}.{$item->product->photoExtension}"
+                         alt="{$item->product->title}"/></td>
+                <th>{$item->product->title}</th>
+                <td>{$item->objednavkaItemPrice|number:0,',',' '} Kč</td>
+                <td>{$item->count}</td>
+            </tr>
+        {/foreach}
+        <tr style="border-top: 2px black solid;">
+            <td colspan="2">Cena objednávky</td>
+            <th style="text-align: center" colspan="4">{$objednavka->objednavkaPrice} Kč</th>
+        </tr>
+    </table>
+{/if}
+
+</div>

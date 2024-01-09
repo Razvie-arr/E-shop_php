@@ -5,6 +5,7 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\ObjednavkaEditForm\ObjednavkaEditForm;
 use App\AdminModule\Components\ObjednavkaEditForm\ObjednavkaEditFormFactory;
 use App\Model\Facades\ObjednavkaFacade;
+use Nette\Application\BadRequestException;
 
 /**
  * Class OrderPresenter
@@ -14,12 +15,26 @@ class OrderPresenter extends BasePresenter {
     private ObjednavkaFacade $objednavkaFacade;
     private ObjednavkaEditFormFactory $objednavkaEditFormFactory;
 
-
     /**
      * Akce pro vykreslení seznamu objednavek
      */
     public function renderDefault(): void {
         $this->template->objednavky = $this->objednavkaFacade->findObjednavky(['order' => 'objednavka_id']);
+    }
+
+    /**
+     * Akce pro zobrazení jedné objednávky
+     * @param int $id
+     * @throws BadRequestException
+     */
+    public function renderShow(int $id): void {
+        try {
+            $objednavka = $this->objednavkaFacade->getObjednavkaById($id);
+        } catch (\Exception $e) {
+            throw new BadRequestException('Objednávka nebyla nalezena.');
+        }
+
+        $this->template->objednavka = $objednavka;
     }
 
     /**
