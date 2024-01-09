@@ -2,7 +2,10 @@
 
 namespace App\FrontModule\Components\OrderForm;
 
+use App\FrontModule\Components\CartControl\CartControl;
+use App\Model\Entities\Cart;
 use App\Model\Entities\Objednavka;
+use App\Model\Facades\CartFacade;
 use App\Model\Facades\ObjednavkaFacade;
 use Nette;
 use Nette\Application\UI\Form;
@@ -11,6 +14,8 @@ use Nette\Security\User;
 use Nette\SmartObject;
 use Nextras\FormsRendering\Renderers\Bs4FormRenderer;
 use Nextras\FormsRendering\Renderers\FormLayout;
+use Nette\Http\Session;
+use Nette\Http\SessionSection;
 
 /**
  * Class OrderForm
@@ -31,16 +36,25 @@ class OrderForm extends Form {
 
     private ObjednavkaFacade $objednavkaFacade;
 
+    private SessionSection $cartSession;
+    private CartFacade $cartFacade;
+    private Cart $cart;
+
     /**
      * OrderForm constructor.
+     * @param Session $session
+     * @param CartFacade $cartFacade
      * @param ObjednavkaFacade $objednavkaFacade
      * @param User $user
      * @param Nette\ComponentModel\IContainer|null $parent
      * @param string|null $name
      */
-    public function __construct(User $user,ObjednavkaFacade $objednavkaFacade,Nette\ComponentModel\IContainer $parent = null, string $name = null) {
+    public function __construct(Session $session, CartFacade $cartFacade,User $user,ObjednavkaFacade $objednavkaFacade,Nette\ComponentModel\IContainer $parent = null, string $name = null) {
         parent::__construct($parent, $name);
         $this->setRenderer(new Bs4FormRenderer(FormLayout::VERTICAL));
+        $this->cartFacade=$cartFacade;
+        $this->cartSession=$session->getSection('cart');
+        $this->cart=$this->prepareOrder();
         $this->user = $user;
         $this->objednavkaFacade = $objednavkaFacade;
         $this->createSubcomponents();
@@ -69,7 +83,7 @@ class OrderForm extends Form {
             $objednavka->objednavkaAddress=$values['adresa'];
             $objednavka->objednavkaPhone=$values['telefon'];
             $objednavka->objednavkaEmail=$values['email'];
-
+            $objednavka->objednavkaPrice=$this->cart->getTotalPrice();
 
             $this->objednavkaFacade->saveObjednavka($objednavka);
             $this->setValues(['objednavkaId' => $objednavka->objednavkaId]);
@@ -81,6 +95,55 @@ class OrderForm extends Form {
             ->onClick[] = function (SubmitButton $button) {
             $this->onCancel();
         };
+    }
+
+    private function prepareOrder():Cart {
+        #region zkusíme najít košík podle ID ze session
+        try {
+            if ($cartId = $this->cartSession->get('cartId')){
+                $cart = $this->cartFacade->getCartById((int)$cartId);
+                //zkontrolujeme, jestli tu není košík od předchozího uživatele, nebo se nepřihlásil uživatel s prázdným košíkem (případně ho zahodíme)
+                if (($cart->userId || empty($cart->items)) && ($cart->userId!=$this->user->id || !$this->user->isLoggedIn())){
+                    $cart=null;
+                }
+            }
+        }catch (\Exception $e){
+            /*košík se nepovedlo najít*/
+        }
+        #endregion zkusíme najít košík podle ID ze session
+        #region vyřešíme vazbu košíku na uživatele, případně vytvoříme košík nový
+        if (isset($this->user)){
+            if ($cart){
+                //přiřadíme do košíku načteného podle session vazbu na aktuálního uživatele
+                if ($cart->userId != $this->user->id){
+                    $this->cartFacade->deleteCartByUser($this->user->id);
+                }
+                $cart->userId=$this->user->id;
+                $this->cartFacade->saveCart($cart);
+            }else{
+                //zkusíme najít košík podle ID uživatele - pokud ho nenajdeme, vytvoříme nový
+                try{
+                    $cart=$this->cartFacade->getCartByUser($this->user->id);
+                }catch (\Exception $e){
+                    /*košík nebyl pro daného uživatele nalezen*/
+                    $cart=new Cart();
+                    $cart->userId=$this->user->id;
+                    $this->cartFacade->saveCart($cart);
+                    $this->deleteOldCarts();
+                }
+            }
+        }elseif(!$cart){
+            //košík jsme zatím nijak nezvládli najít, vytvoříme nový prázdný
+            $cart=new Cart();
+            $this->cartFacade->saveCart($cart);
+            $this->deleteOldCarts();
+        }
+        #endregion vyřešíme vazbu košíku na uživatele, případně vytvoříme košík nový
+
+        //aktualizujeme ID košíku v session
+        $this->cartSession->set('cartId',$cart->cartId);
+
+        return $cart;
     }
 
 }
