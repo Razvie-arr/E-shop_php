@@ -19,6 +19,8 @@ class OrderPresenter extends BasePresenter{
      */
     protected function createComponentOrderForm():OrderForm {
         $form=$this->orderFormFactory->create();
+        $form->cart = $this->getComponent('cart');
+        $form->createSubcomponents();
         $form->onFinished[]=function($message='')use($form){
             $values=$form->getValues('array');
 
