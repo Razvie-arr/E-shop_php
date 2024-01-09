@@ -38,8 +38,7 @@ class OrderForm extends Form {
 
     private SessionSection $cartSession;
     private CartFacade $cartFacade;
-    private Cart $cart;
-
+    public Cart $cart;
     /**
      * OrderForm constructor.
      * @param Session $session
@@ -54,10 +53,9 @@ class OrderForm extends Form {
         $this->setRenderer(new Bs4FormRenderer(FormLayout::VERTICAL));
         $this->cartFacade=$cartFacade;
         $this->cartSession=$session->getSection('cart');
-        $this->cart=$this->prepareOrder();
+        $this->cart = $cart;
         $this->user = $user;
         $this->objednavkaFacade = $objednavkaFacade;
-        $this->createSubcomponents();
     }
 
 
@@ -85,6 +83,7 @@ class OrderForm extends Form {
             $objednavka->objednavkaEmail=$values['email'];
             $objednavka->objednavkaPrice=$this->cart->getTotalPrice();
 
+
             $this->objednavkaFacade->saveObjednavka($objednavka);
             $this->setValues(['objednavkaId' => $objednavka->objednavkaId]);
 
@@ -95,55 +94,6 @@ class OrderForm extends Form {
             ->onClick[] = function (SubmitButton $button) {
             $this->onCancel();
         };
-    }
-
-    private function prepareOrder():Cart {
-        #region zkusíme najít košík podle ID ze session
-        try {
-            if ($cartId = $this->cartSession->get('cartId')){
-                $cart = $this->cartFacade->getCartById((int)$cartId);
-                //zkontrolujeme, jestli tu není košík od předchozího uživatele, nebo se nepřihlásil uživatel s prázdným košíkem (případně ho zahodíme)
-                if (($cart->userId || empty($cart->items)) && ($cart->userId!=$this->user->id || !$this->user->isLoggedIn())){
-                    $cart=null;
-                }
-            }
-        }catch (\Exception $e){
-            /*košík se nepovedlo najít*/
-        }
-        #endregion zkusíme najít košík podle ID ze session
-        #region vyřešíme vazbu košíku na uživatele, případně vytvoříme košík nový
-        if (isset($this->user)){
-            if ($cart){
-                //přiřadíme do košíku načteného podle session vazbu na aktuálního uživatele
-                if ($cart->userId != $this->user->id){
-                    $this->cartFacade->deleteCartByUser($this->user->id);
-                }
-                $cart->userId=$this->user->id;
-                $this->cartFacade->saveCart($cart);
-            }else{
-                //zkusíme najít košík podle ID uživatele - pokud ho nenajdeme, vytvoříme nový
-                try{
-                    $cart=$this->cartFacade->getCartByUser($this->user->id);
-                }catch (\Exception $e){
-                    /*košík nebyl pro daného uživatele nalezen*/
-                    $cart=new Cart();
-                    $cart->userId=$this->user->id;
-                    $this->cartFacade->saveCart($cart);
-                    $this->deleteOldCarts();
-                }
-            }
-        }elseif(!$cart){
-            //košík jsme zatím nijak nezvládli najít, vytvoříme nový prázdný
-            $cart=new Cart();
-            $this->cartFacade->saveCart($cart);
-            $this->deleteOldCarts();
-        }
-        #endregion vyřešíme vazbu košíku na uživatele, případně vytvoříme košík nový
-
-        //aktualizujeme ID košíku v session
-        $this->cartSession->set('cartId',$cart->cartId);
-
-        return $cart;
     }
 
 }
