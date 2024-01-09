@@ -21,8 +21,10 @@
                 <td>{$objednavka->objednavkaName}</td>
                 <td>{$objednavka->objednavkaPrice}</td>
                 <td class="text-nowrap">
-                    <a href="{link edit id=>$objednavka->objednavkaId}" class="btn btn-sm btn-outline-primary">Detail</a>
-                    <a href="{link delete id=>$objednavka->objednavkaId}" class="btn btn-sm btn-outline-danger {if !$user->isAllowed($product,'delete')}disabled{/if}">Smazat</a>
+                    <a href="{link edit id=>$objednavka->objednavkaId}"
+                       class="btn btn-sm btn-outline-primary">Detail</a>
+                    <a href="{link delete id=>$objednavka->objednavkaId}"
+                       class="btn btn-sm btn-outline-danger {if !$user->isAllowed('Order','delete')}disabled{/if}">Smazat</a>
                 </td>
             </tr>
         {/foreach}
