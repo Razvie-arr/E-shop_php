@@ -18,10 +18,11 @@ use LeanMapper\Entity;
  * @property int $objednavkaPhone
  * @property bool $paid = false
  * @property float $objednavkaPrice
+ * @property string $status;
  */
-class Objednavka extends Entity{
+class Objednavka extends Entity {
 
-    public function updateObjednavkaItems(){
+    public function updateObjednavkaItems() {
         $this->row->cleanReferencingRowsCache('objednavka_item'); //smažeme cache, aby se položky v košíku znovu načetly z DB bez nutnosti načtení celého košíku
     }
 

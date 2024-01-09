@@ -29,6 +29,11 @@ class ObjednavkaEditForm extends Form {
     public array $onFailed = [];
     /** @var callable[] $onCancel */
     public array $onCancel = [];
+    public array $statuses = ['received' => 'received',
+        'sent' => 'sent',
+        'delivered' => 'delivered',
+        'cancelled' => 'cancelled',
+        'returned' => 'returned'];
 
     private ObjednavkaFacade $objednavkaFacade;
 
@@ -47,9 +52,6 @@ class ObjednavkaEditForm extends Form {
 
     private function createSubcomponents(): void {
         $productId = $this->addHidden('objednavkaId');
-        $this->addText('userId', 'Uživatel')
-            ->setHtmlType('number')
-            ->addRule(Form::NUMERIC, 'Musíte zadat číslo.');
 
         $this->addText('objednavkaName', 'Jméno')
             ->setMaxLength(40);
@@ -73,6 +75,10 @@ class ObjednavkaEditForm extends Form {
         $this->addCheckbox('paid', 'Zaplaceno')
             ->setDefaultValue(false);
 
+        $this->addSelect('status', 'Status', $this->statuses)
+            ->setPrompt('--vyberte status--')
+            ->setRequired(true);
+
         $this->addSubmit('ok', 'Uložit')
             ->onClick[] = function (SubmitButton $button) {
             $values = $this->getValues('array');
@@ -80,13 +86,13 @@ class ObjednavkaEditForm extends Form {
                 try {
                     $objednavka = $this->objednavkaFacade->getObjednavkaById($values['objednavkaId']);
                 } catch (\Exception $e) {
-                    $this->onFailed('Požadovaná objednávka nebyla nalezena.');
+                    $this->onFailed('Požadovaná objednávka nebyla nalezena . ');
                     return;
                 }
             } else {
                 $objednavka = new Objednavka();
             }
-            $objednavka->assign($values, ['objednavkaName', 'objednavkaEmail','objednavkaAddress','paid']);
+            $objednavka->assign($values, ['objednavkaName', 'objednavkaEmail', 'objednavkaAddress', 'paid', 'status']);
             $objednavka->objednavkaPrice = floatval($values['objednavkaPrice']);
             $objednavka->objednavkaPhone = intval($values['objednavkaPhone']);
             $objednavka->userId = intval($values['userId']);
@@ -95,7 +101,7 @@ class ObjednavkaEditForm extends Form {
             $this->setValues(['objednavkaId' => $objednavka->objednavkaId]);
 
 
-            $this->onFinished('Objednávka byla uložena.');
+            $this->onFinished('Objednávka byla uložena . ');
         };
         $this->addSubmit('storno', 'zrušit')
             ->setValidationScope([$productId])
@@ -114,13 +120,13 @@ class ObjednavkaEditForm extends Form {
         if ($values instanceof Objednavka) {
             $values = [
                 'objednavkaId' => $values->objednavkaId,
-                'userId' => $values->userId,
                 'objednavkaName' => $values->objednavkaName,
                 'objednavkaEmail' => $values->objednavkaEmail,
                 'objednavkaAddress' => $values->objednavkaAddress,
                 'objednavkaPhone' => $values->objednavkaPhone,
                 'paid' => $values->paid,
-                'objednavkaPrice' => $values->objednavkaPrice
+                'objednavkaPrice' => $values->objednavkaPrice,
+                'status' => $values->status
             ];
         }
         parent::setDefaults($values, $erase);
