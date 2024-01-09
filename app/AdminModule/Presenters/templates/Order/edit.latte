@@ -1,6 +1,6 @@
 {varType App\Model\Entities\Objednavka $objednavka}
 {block content}
 
-<h1 n:block="title">Detail objednávky {$objednavka->objednavkaId}</h1>
+<h1 n:block="title">Detail objednávky {$objednavka->objednavkaId} - {$objednavka->objednavkaDate}</h1>
 
 {control objednavkaEditForm}

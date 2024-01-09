@@ -48,10 +48,8 @@ class ObjednavkaEditForm extends Form {
     private function createSubcomponents(): void {
         $productId = $this->addHidden('objednavkaId');
         $this->addText('userId', 'Uživatel')
-            ->setMaxLength(100);
-
-        $this->addDateTime('objednavkaDate', 'Datum objednávky')
-            ->setRequired('Zadejte datum objednávky');
+            ->setHtmlType('number')
+            ->addRule(Form::NUMERIC, 'Musíte zadat číslo.');
 
         $this->addText('objednavkaName', 'Jméno')
             ->setMaxLength(40);
@@ -88,9 +86,10 @@ class ObjednavkaEditForm extends Form {
             } else {
                 $objednavka = new Objednavka();
             }
-            $objednavka->assign($values, ['userId', 'objednavkaDate', 'objednavkaName', 'objednavkaEmail','objednavkaAddress','paid']);
+            $objednavka->assign($values, ['objednavkaName', 'objednavkaEmail','objednavkaAddress','paid']);
             $objednavka->objednavkaPrice = floatval($values['objednavkaPrice']);
             $objednavka->objednavkaPhone = intval($values['objednavkaPhone']);
+            $objednavka->userId = intval($values['userId']);
 
             $this->objednavkaFacade->saveObjednavka($objednavka);
             $this->setValues(['objednavkaId' => $objednavka->objednavkaId]);
@@ -116,7 +115,6 @@ class ObjednavkaEditForm extends Form {
             $values = [
                 'objednavkaId' => $values->objednavkaId,
                 'userId' => $values->userId,
-                'objednavkaDate' => $values->objednavkaDate,
                 'objednavkaName' => $values->objednavkaName,
                 'objednavkaEmail' => $values->objednavkaEmail,
                 'objednavkaAddress' => $values->objednavkaAddress,
