@@ -32,7 +32,7 @@ class ObjednavkaEditForm extends Form {
     public array $statuses = ['received' => 'received',
         'sent' => 'sent',
         'delivered' => 'delivered',
-        'cancelled' => 'cancelled',
+        'canceled' => 'canceled',
         'returned' => 'returned'];
 
     private ObjednavkaFacade $objednavkaFacade;
