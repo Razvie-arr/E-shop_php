@@ -2,20 +2,21 @@
 
 namespace App\FrontModule\Components\OrderForm;
 
-use App\FrontModule\Components\CartControl\CartControl;
 use App\Model\Entities\Cart;
 use App\Model\Entities\Objednavka;
+use App\Model\Entities\ObjednavkaItem;
+use App\Model\Entities\Product;
 use App\Model\Facades\CartFacade;
 use App\Model\Facades\ObjednavkaFacade;
+use App\Model\Facades\ProductsFacade;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Http\Session;
 use Nette\Security\User;
 use Nette\SmartObject;
 use Nextras\FormsRendering\Renderers\Bs4FormRenderer;
 use Nextras\FormsRendering\Renderers\FormLayout;
-use Nette\Http\Session;
-use Nette\Http\SessionSection;
 
 /**
  * Class OrderForm
@@ -34,28 +35,29 @@ class OrderForm extends Form {
     public array $onFailed = [];
     public array $onCancel = [];
 
+    private ProductsFacade $productsFacade;
     private ObjednavkaFacade $objednavkaFacade;
-
-    private SessionSection $cartSession;
     private CartFacade $cartFacade;
     public Cart $cart;
+
     /**
      * OrderForm constructor.
      * @param Session $session
      * @param CartFacade $cartFacade
      * @param ObjednavkaFacade $objednavkaFacade
+     * @param ProductsFacade $productsFacade
      * @param User $user
      * @param Nette\ComponentModel\IContainer|null $parent
      * @param string|null $name
      */
-    public function __construct(Session $session, CartFacade $cartFacade,User $user,ObjednavkaFacade $objednavkaFacade,Nette\ComponentModel\IContainer $parent = null, string $name = null) {
+    public function __construct(CartFacade $cartFacade, User $user, ObjednavkaFacade $objednavkaFacade, ProductsFacade $productsFacade, Nette\ComponentModel\IContainer $parent = null, string $name = null) {
         parent::__construct($parent, $name);
         $this->setRenderer(new Bs4FormRenderer(FormLayout::VERTICAL));
-        $this->cartFacade=$cartFacade;
-        $this->cartSession=$session->getSection('cart');
-        $this->cart = $cart;
+        $this->cartFacade = $cartFacade;
         $this->user = $user;
         $this->objednavkaFacade = $objednavkaFacade;
+        $this->productsFacade = $productsFacade;
+        $this->createSubcomponents();
     }
 
 
@@ -76,15 +78,18 @@ class OrderForm extends Form {
         $this->addSubmit('ok', 'Potvrdit objednávku')
             ->onClick[] = function (SubmitButton $button) {
             $values = $this->getValues('array');
-            $objednavka = new Objednavka();
-            $objednavka->objednavkaName=$values['jmeno'];
-            $objednavka->objednavkaAddress=$values['adresa'];
-            $objednavka->objednavkaPhone=$values['telefon'];
-            $objednavka->objednavkaEmail=$values['email'];
-            $objednavka->objednavkaPrice=$this->cart->getTotalPrice();
+            $objednavka = $this->createAndPersistObjednavka($values);
 
+            foreach ($this->cart->getCartItems() as $cartItem) {
+                $product = $cartItem->product;
+                $itemCount = $cartItem->count;
+                $this->updateProductStockCount($product, $itemCount);
+                $this->createAndPersistObjednavkaItem($objednavka, $cartItem);
+            }
 
-            $this->objednavkaFacade->saveObjednavka($objednavka);
+            $objednavka->updateObjednavkaItems();
+            $this->cartFacade->deleteCart($this->cart);
+
             $this->setValues(['objednavkaId' => $objednavka->objednavkaId]);
 
             $this->onFinished('Děkujeme za vaši objednávku. Vaši objednávku vyřídíme co nedjříve.');
@@ -94,6 +99,32 @@ class OrderForm extends Form {
             ->onClick[] = function (SubmitButton $button) {
             $this->onCancel();
         };
+    }
+
+    private function createAndPersistObjednavka($values): Objednavka {
+        $objednavka = new Objednavka();
+        $objednavka->userId = $this->cart->userId;
+        $objednavka->objednavkaName = $values['jmeno'];
+        $objednavka->objednavkaAddress = $values['adresa'];
+        $objednavka->objednavkaPhone = $values['telefon'];
+        $objednavka->objednavkaEmail = $values['email'];
+        $objednavka->objednavkaPrice = $this->cart->getTotalPrice();
+        $this->objednavkaFacade->saveObjednavka($objednavka);
+        return $objednavka;
+    }
+
+    private function createAndPersistObjednavkaItem($objednavka, $cartItem) {
+        $objednavkaItem = new ObjednavkaItem();
+        $objednavkaItem->product = $cartItem->product;
+        $objednavkaItem->objednavka = $objednavka;
+        $objednavkaItem->count = $cartItem->count;
+        $objednavkaItem->objednavkaItemPrice = $objednavkaItem->product->price;
+        $this->objednavkaFacade->saveObjednavkaItem($objednavkaItem);
+    }
+
+    private function updateProductStockCount(Product $product, $itemCount) {
+        $product->stock = $product->stock - $itemCount;
+        $this->productsFacade->saveProduct($product);
     }
 
 }

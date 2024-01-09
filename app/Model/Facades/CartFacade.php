@@ -9,7 +9,7 @@ use App\Model\Repositories\CartItemRepository;
 use App\Model\Repositories\CartRepository;
 use Dibi\DateTime;
 
-class CartFacade{
+class CartFacade {
     private CartRepository $cartRepository;
     private CartItemRepository $cartItemRepository;
 
@@ -19,7 +19,7 @@ class CartFacade{
      * @return Cart
      * @throws \Exception
      */
-    public function getCartById(int $id):Cart {
+    public function getCartById(int $id): Cart {
         return $this->cartRepository->find($id);
     }
 
@@ -29,30 +29,32 @@ class CartFacade{
      * @return Cart
      * @throws \Exception
      */
-    public function getCartByUser($user):Cart {
-        if ($user instanceof User){
-            $user=$user->userId;
+    public function getCartByUser($user): Cart {
+        if ($user instanceof User) {
+            $user = $user->userId;
         }
-        return $this->cartRepository->findBy(['user_id'=>$user]);
+        return $this->cartRepository->findBy(['user_id' => $user]);
     }
 
     /**
      * Metoda pro smazání košíku konkrétního uživatele
      * @param User|int $user
      */
-    public function deleteCartByUser($user):void {
-        try{
+    public function deleteCartByUser($user): void {
+        try {
             $this->cartRepository->delete($this->getCartByUser($user));
-        }catch (\Exception $e){}
+        } catch (\Exception $e) {
+        }
     }
 
     /**
      * Metoda pro smazání starých košíků
      */
-    public function deleteOldCarts():void {
-        try{
+    public function deleteOldCarts(): void {
+        try {
             $this->cartRepository->deleteOldCarts();
-        }catch (\Exception $e){}
+        } catch (\Exception $e) {
+        }
     }
 
     /**
@@ -61,7 +63,7 @@ class CartFacade{
      * @return CartItem
      * @throws \Exception
      */
-    public function getCartItem(int $cartItemId):CartItem {
+    public function getCartItem(int $cartItemId): CartItem {
         return $this->cartItemRepository->find($cartItemId);
     }
 
@@ -69,7 +71,7 @@ class CartFacade{
      * Metoda pro uložení položky v košíku
      * @param CartItem $cartItem
      */
-    public function saveCartItem(CartItem $cartItem):void {
+    public function saveCartItem(CartItem $cartItem): void {
         $this->cartItemRepository->persist($cartItem);
     }
 
@@ -78,7 +80,7 @@ class CartFacade{
      * @param CartItem $cartItem
      * @throws \LeanMapper\Exception\InvalidStateException
      */
-    public function deleteCartItem(CartItem $cartItem):void {
+    public function deleteCartItem(CartItem $cartItem): void {
         $this->cartItemRepository->delete($cartItem);
     }
 
@@ -86,14 +88,21 @@ class CartFacade{
      * Metoda pro uložení košíku, automaticky aktualizuje informaci o jeho poslední změně
      * @param Cart $cart
      */
-    public function saveCart(Cart $cart):void {
+    public function saveCart(Cart $cart): void {
         $cart->lastModified = new DateTime();
         $this->cartRepository->persist($cart);
     }
 
+    /**
+     * @throws \LeanMapper\Exception\InvalidStateException
+     */
+    public function deleteCart(Cart $cart): void {
+        $this->cartRepository->delete($cart);
+    }
 
-    public function __construct(CartRepository $cartRepository, CartItemRepository $cartItemRepository){
-        $this->cartRepository=$cartRepository;
-        $this->cartItemRepository=$cartItemRepository;
+
+    public function __construct(CartRepository $cartRepository, CartItemRepository $cartItemRepository) {
+        $this->cartRepository = $cartRepository;
+        $this->cartItemRepository = $cartItemRepository;
     }
 }

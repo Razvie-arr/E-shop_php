@@ -39,7 +39,7 @@ class ProductPresenter extends BasePresenter {
      */
     public function renderList(): void {
         //TODO tady by mělo přibýt filtrování podle kategorie, stránkování atp.
-        $categoryName = "Všechny E-čtečky";
+        $categoryName = "Všechny E-čtečky a doplňky";
         $findArray = ['order' => 'title'];
         if (isset($_GET["kategorie"])) {
             $categoryId = $_GET["kategorie"];
