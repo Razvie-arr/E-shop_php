@@ -12,8 +12,8 @@ use Nextras\FormsRendering\Renderers\Bs4FormRenderer;
 use Nextras\FormsRendering\Renderers\FormLayout;
 
 /**
- * Class ProductEditForm
- * @package App\AdminModule\Components\ProductEditForm
+ * Class ObjednavkaEditForm
+ * @package App\AdminModule\Components\ObjednavkaEditForm
  *
  * @method onFinished(string $message = '')
  * @method onFailed(string $message = '')
