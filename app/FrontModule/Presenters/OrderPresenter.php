@@ -30,7 +30,7 @@ class OrderPresenter extends BasePresenter {
             $mail->setFrom('bret04@vse.cz');
             $mail->addTo($values['email'], $values['jmeno']);
             $mail->subject = 'Objednávka z Eleknihy';
-            $mail->htmlBody = 'Děkujeme za vaši objednávku v našem eshopu.';
+            $mail->htmlBody = 'Děkujeme za vaši objednávku v našem eshopu. Na vaší objednávce začínáme okamžitě pracovat. Během pár okamžiků vám pošleme fakturu, tu prosím bezprostředně uhraďte. Po uhrazení faktury bude vaše objednávka ihned odeslána. Pokud nebude faktura zaplacena do 48 hodin, tak bude vaše objednávka zrušena.';
             #endregion endregion příprava textu mailu
 
             //odeslání mailu pomocí PHP funkce mail
