@@ -15,6 +15,12 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{$basePath}/img/favicon/favicon-180x180.png"/>
     <link rel="icon" href="{$basePath}/img/favicon/favicon.svg" type="image/svg+xml"/>
     <link rel="manifest" href="{plink Homepage:manifest}"/>
+    <script src="{$basePath}/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#mytextarea'
+        });
+    </script>
 
     {block head}{/block}
 </head>

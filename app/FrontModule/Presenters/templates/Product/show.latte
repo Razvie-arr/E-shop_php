@@ -12,7 +12,7 @@
                 <div class="fs-5 mb-5">
                     <span>{$product->price} Kč</span>
                 </div>
-                <p class="lead">{$product->description}</p>
+                <p class="lead">{$product->description|noescape}</p>
                 <div class="d-flex">
                     {if $product->stock > 0}
                         {control "productCartForm-$product->productId"}
