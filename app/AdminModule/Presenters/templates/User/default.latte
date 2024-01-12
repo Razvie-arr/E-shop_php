@@ -14,6 +14,7 @@
         {foreach $listUsers as $listUser}
             <tr>
                 <td>{$listUser->name}</td>
+                <td>{$listUser->email}</td>
                 <td class="text-nowrap">
                     <a href="{link edit id=>$listUser->userId}" class="btn btn-sm btn-outline-primary">upravit</a>
                     <a href="{link delete id=>$listUser->userId}"
