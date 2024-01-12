@@ -18,7 +18,7 @@
         {foreach $objednavky as $objednavka}
             <tr>
                 <td>{$objednavka->objednavkaId}</td>
-                <td>{$objednavka->objednavkaDate}</td>
+                <td>{$objednavka->objednavkaDate|date:'Y-m-d H:i:s'}</td>
                 <td>{$objednavka->objednavkaName}</td>
                 <td>{$objednavka->objednavkaPrice}</td>
                 <td>{$objednavka->status}</td>
