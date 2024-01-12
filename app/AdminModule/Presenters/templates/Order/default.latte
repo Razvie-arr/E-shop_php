@@ -27,8 +27,6 @@
                        class="btn btn-sm btn-outline-primary">Změna</a>
                     <a href="{link show id=>$objednavka->objednavkaId}"
                        class="btn btn-sm btn-outline-secondary">Detail</a>
-                    <a href="{link delete id=>$objednavka->objednavkaId}"
-                       class="btn btn-sm btn-outline-danger {if !$user->isAllowed('Order','delete')}disabled{/if}">Smazat</a>
                 </td>
             </tr>
         {/foreach}
