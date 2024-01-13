@@ -183,7 +183,7 @@ class CartControl extends Control {
     }
 
     private function createOutOfStockProductsErrorMessage(): string {
-        return "Některé z vybraných produktů nesjou dostupné skladem v dostatečném počtu";
+        return "Některý z vybraných produktů není dostupný skladem v dostatečném počtu";
     }
 
     /**

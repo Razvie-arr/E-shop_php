@@ -71,6 +71,8 @@ class OrderForm extends Form {
             ->setRequired('Zadejte váš E-mail')
             ->setDefaultValue($this->user->identity->email);
         $this->addInteger('telefon', 'Telefonní číslo')
+            ->setHtmlType('tel')
+            ->setMaxLength(9)
             ->setRequired('Zadejte váše číslo');
         $this->addCheckbox('potvrzeni', 'Souhlasím s obchodními podmínkami a chci závazně objednat.')
             ->setRequired('Pro pokračování musíte souhlasit');
@@ -142,7 +144,7 @@ class OrderForm extends Form {
     }
 
     private function createOutOfStockProductsErrorMessage(): string {
-        return "Některé z vybraných produktů nesjou dostupné skladem v dostatečném počtu";
+        return "Některý z vybraných produktů není dostupný skladem v dostatečném počtu";
     }
 
     private function updateProductStockCount(Product $product, $itemCount) {
