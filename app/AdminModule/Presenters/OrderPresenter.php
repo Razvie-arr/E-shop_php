@@ -19,7 +19,14 @@ class OrderPresenter extends BasePresenter {
      * Akce pro vykreslení seznamu objednavek
      */
     public function renderDefault(): void {
-        $this->template->objednavky = $this->objednavkaFacade->findObjednavky(['order' => 'objednavka_id DESC']);
+        $statusName = "Všechny objednávky";
+        $findArray = ['order' => 'objednavka_id DESC'];
+        if (isset($_GET["status"])) {
+            $statusName = $_GET["status"];
+            $findArray['status'] = $statusName;
+        }
+        $this->template->objednavky = $this->objednavkaFacade->findObjednavky($findArray);
+        $this->template->statusName = $statusName;
     }
 
     /**

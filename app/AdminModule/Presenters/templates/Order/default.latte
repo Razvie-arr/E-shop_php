@@ -2,16 +2,46 @@
 {block content}
 
 <h1 n:block="title">Správa objednávek</h1>
+
+
+<ul class="nav nav-tabs mt-4">
+    <li class="nav-item">
+        <a n:class="nav-link, $presenter->isLinkCurrent() ? active" n:href="Order:default, status=>null">Všechny objednávky</a>
+    </li>
+
+    <li class="nav-item">
+        <a n:href="Order:default, status: received" n:class="nav-link, $presenter->isLinkCurrent() ? active">received</a>
+    </li>
+
+    <li class="nav-item">
+        <a n:href="Order:default, status: sent" n:class="nav-link, $presenter->isLinkCurrent() ? active">sent</a>
+    </li>
+
+    <li class="nav-item">
+        <a n:href="Order:default, status: delivered" n:class="nav-link, $presenter->isLinkCurrent() ? active">delivered</a>
+    </li>
+
+    <li class="nav-item">
+        <a n:href="Order:default, status: canceled" n:class="nav-link, $presenter->isLinkCurrent() ? active">canceled</a>
+    </li>
+
+    <li class="nav-item">
+        <a n:href="Order:default, status: returned" n:class="nav-link, $presenter->isLinkCurrent() ? active">returned</a>
+    </li>
+</ul>
+
+
+
 {if !empty($objednavky)}
-    <table class="table table-hover mt-4">
+    <table class="table table-hover">
         <thead>
-        <tr>
-            <th scope="col">Číslo objednávky</th>
-            <th scope="col">Datum</th>
-            <th scope="col">Jméno</th>
-            <th scope="col">Cena</th>
-            <th scope="col">Status</th>
-            <th scope="col" class="col-xl-1 col-md-2">Detail</th>
+        <tr style="border-top: none">
+            <th style="border-top: none" scope="col">Číslo objednávky</th>
+            <th style="border-top: none" scope="col">Datum</th>
+            <th style="border-top: none" scope="col">Jméno</th>
+            <th style="border-top: none" scope="col">Cena</th>
+            <th style="border-top: none" scope="col">Status</th>
+            <th style="border-top: none" scope="col" class="col-xl-1 col-md-2">Detail</th>
         </tr>
         </thead>
         <tbody>
