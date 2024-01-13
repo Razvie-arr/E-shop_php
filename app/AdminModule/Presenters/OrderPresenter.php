@@ -4,6 +4,8 @@ namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Components\ObjednavkaEditForm\ObjednavkaEditForm;
 use App\AdminModule\Components\ObjednavkaEditForm\ObjednavkaEditFormFactory;
+use App\AdminModule\Components\ObjednavkaStatusEditForm\ObjednavkaStatusEditForm;
+use App\AdminModule\Components\ObjednavkaStatusEditForm\ObjednavkaStatusEditFormFactory;
 use App\Model\Facades\ObjednavkaFacade;
 use Nette\Application\BadRequestException;
 
@@ -14,6 +16,8 @@ use Nette\Application\BadRequestException;
 class OrderPresenter extends BasePresenter {
     private ObjednavkaFacade $objednavkaFacade;
     private ObjednavkaEditFormFactory $objednavkaEditFormFactory;
+
+    private ObjednavkaStatusEditFormFactory $objednavkaStatusEditFormFactory;
 
     /**
      * Akce pro vykreslení seznamu objednavek
@@ -41,6 +45,8 @@ class OrderPresenter extends BasePresenter {
             throw new BadRequestException('Objednávka nebyla nalezena.');
         }
 
+        $form = $this->getComponent('objednavkaStatusEditForm');
+        $form->setDefaults($objednavka);
         $this->template->objednavka = $objednavka;
     }
 
@@ -117,6 +123,30 @@ class OrderPresenter extends BasePresenter {
         return $form;
     }
 
+
+    /**
+     * Formulář na změnu stavu objednávky
+     * @return ObjednavkaStatusEditForm
+     */
+    public function createComponentObjednavkaStatusEditForm(): ObjednavkaStatusEditForm {
+        $form = $this->objednavkaStatusEditFormFactory->create();
+        $form->onCancel[] = function () {
+            $this->redirect('default');
+        };
+        $form->onFinished[] = function ($message = null) {
+            if (!empty($message)) {
+                $this->flashMessage($message);
+            }
+        };
+        $form->onFailed[] = function ($message = null) {
+            if (!empty($message)) {
+                $this->flashMessage($message, 'error');
+            }
+            $this->redirect('default');
+        };
+        return $form;
+    }
+
     #region injections
     public function injectObjednavkaFacade(ObjednavkaFacade $objednavkaFacade): void {
         $this->objednavkaFacade = $objednavkaFacade;
@@ -124,6 +154,10 @@ class OrderPresenter extends BasePresenter {
 
     public function injectObjednavkaEditFormFactory(ObjednavkaEditFormFactory $objednavkaEditFormFactory): void {
         $this->objednavkaEditFormFactory = $objednavkaEditFormFactory;
+    }
+
+    public function injectObjednavkaStatusEditFormFactory(ObjednavkaStatusEditFormFactory $objednavkaStatusEditFormFactory): void {
+        $this->objednavkaStatusEditFormFactory = $objednavkaStatusEditFormFactory;
     }
     #endregion injections
 

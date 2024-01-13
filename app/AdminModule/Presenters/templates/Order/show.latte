@@ -3,8 +3,9 @@
 
 <div class="container px-4 px-lg-5 mt-5">
 <h1 n:block="title">Informace o objednávce - ID={$objednavka->objednavkaId}</h1>
+    <div style="width: 200px;">{control objednavkaStatusEditForm}</div>
    <ul>
-       <li>Datum objednávky - {$objednavka->objednavkaDate}</li>
+       <li>Datum objednávky - {$objednavka->objednavkaDate|date:'Y-m-d H:i:s'}</li>
        <li>Telefon zákazníka - {$objednavka->objednavkaPhone}</li>
        <li>Adresa objednávky - {$objednavka->objednavkaAddress}</li>
        <li>Email zákazníka - {$objednavka->objednavkaEmail}</li>
