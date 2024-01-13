@@ -78,6 +78,13 @@ class OrderForm extends Form {
         $this->addSubmit('ok', 'Potvrdit objednávku')
             ->onClick[] = function (SubmitButton $button) {
             $values = $this->getValues('array');
+
+            $unavailableProducts = $this->checkStockAndReturnUnavailableProducts();
+
+            if (count($unavailableProducts) > 0) {
+                $this->onFailed($this->createOutOfStockProductsErrorMessage($unavailableProducts));
+            }
+
             $objednavka = $this->createAndPersistObjednavka($values);
 
             foreach ($this->cart->getCartItems() as $cartItem) {
@@ -122,9 +129,26 @@ class OrderForm extends Form {
         $this->objednavkaFacade->saveObjednavkaItem($objednavkaItem);
     }
 
+    private function checkStockAndReturnUnavailableProducts(): array {
+        $unavailableProducts = [];
+
+        //check if products out of stock
+        foreach ($this->cart->getCartItems() as $cartItem) {
+            if ($cartItem->count > $cartItem->product->stock) {
+                array_push($unavailableProducts, $cartItem->product);
+            }
+        }
+        return $unavailableProducts;
+    }
+
+    private function createOutOfStockProductsErrorMessage(): string {
+        return "Některé z vybraných produktů nesjou dostupné skladem v dostatečném počtu";
+    }
+
     private function updateProductStockCount(Product $product, $itemCount) {
         $product->stock = $product->stock - $itemCount;
         $this->productsFacade->saveProduct($product);
     }
+
 
 }

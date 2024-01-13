@@ -41,6 +41,27 @@ class CartControl extends Control {
         $template->render();
     }
 
+    /**
+     * @throws \Nette\Application\AbortException
+     */
+    public function handleConfirm(): void {
+        $unavailableProducts = [];
+
+        //check if products out of stock
+        foreach ($this->cart->getCartItems() as $cartItem) {
+            if ($cartItem->count > $cartItem->product->stock) {
+                array_push($unavailableProducts, $cartItem->product);
+            }
+        }
+
+        if (count($unavailableProducts) > 0) {
+            $this->presenter->flashMessage($this->createOutOfStockProductsErrorMessage($unavailableProducts), 'error');
+            $this->redirect('this');
+        } else {
+            $this->presenter->redirect("Order:default");
+        }
+    }
+
     public function handleRemove($cartItemId) {
         $this->cart->updateCartItems();
         try {
@@ -159,6 +180,10 @@ class CartControl extends Control {
         $this->cartSession->set('cartId', $cart->cartId);
 
         return $cart;
+    }
+
+    private function createOutOfStockProductsErrorMessage(): string {
+        return "Některé z vybraných produktů nesjou dostupné skladem v dostatečném počtu";
     }
 
     /**
