@@ -13,6 +13,9 @@ class OrderPresenter extends BasePresenter {
 
     private ObjednavkaFacade $objednavkaFacade;
 
+    public function renderDefault() {
+    }
+
     /**
      * Formulář pro odeslání objednávky
      * @return OrderForm

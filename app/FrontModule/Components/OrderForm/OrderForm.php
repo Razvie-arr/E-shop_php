@@ -9,6 +9,7 @@ use App\Model\Entities\Product;
 use App\Model\Facades\CartFacade;
 use App\Model\Facades\ObjednavkaFacade;
 use App\Model\Facades\ProductsFacade;
+use App\Model\Facades\ReservedProductsFacade;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
@@ -38,6 +39,7 @@ class OrderForm extends Form {
     private ProductsFacade $productsFacade;
     private ObjednavkaFacade $objednavkaFacade;
     private CartFacade $cartFacade;
+    private ReservedProductsFacade $reservedProductsFacade;
     public Cart $cart;
 
     /**
@@ -46,11 +48,12 @@ class OrderForm extends Form {
      * @param CartFacade $cartFacade
      * @param ObjednavkaFacade $objednavkaFacade
      * @param ProductsFacade $productsFacade
+     * @param ReservedProductsFacade $reservedProductsFacade
      * @param User $user
      * @param Nette\ComponentModel\IContainer|null $parent
      * @param string|null $name
      */
-    public function __construct(CartFacade $cartFacade, User $user, ObjednavkaFacade $objednavkaFacade, ProductsFacade $productsFacade, Nette\ComponentModel\IContainer $parent = null, string $name = null) {
+    public function __construct(CartFacade $cartFacade, User $user, ObjednavkaFacade $objednavkaFacade, ProductsFacade $productsFacade, ReservedProductsFacade $reservedProductsFacade, Nette\ComponentModel\IContainer $parent = null, string $name = null) {
         parent::__construct($parent, $name);
         $this->setRenderer(new Bs4FormRenderer(FormLayout::VERTICAL));
         $this->cartFacade = $cartFacade;
@@ -89,6 +92,7 @@ class OrderForm extends Form {
 
             $objednavka->updateObjednavkaItems();
             $this->cartFacade->deleteCart($this->cart);
+            $this->reservedProductsFacade->deleteReservedProductsByCartId($this->cart->cartId);
 
             $this->setValues(['objednavkaId' => $objednavka->objednavkaId]);
 

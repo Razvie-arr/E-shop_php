@@ -6,6 +6,7 @@ use App\Model\Entities\Cart;
 use App\Model\Entities\CartItem;
 use App\Model\Entities\Product;
 use App\Model\Facades\CartFacade;
+use App\Model\Facades\ReservedProductsFacade;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Template;
 use Nette\Http\Session;
@@ -20,6 +21,7 @@ class CartControl extends Control {
     private User $user;
     private SessionSection $cartSession;
     private CartFacade $cartFacade;
+    private ReservedProductsFacade $reservedProductsFacade;
     private Cart $cart;
 
     /**
@@ -39,6 +41,53 @@ class CartControl extends Control {
         $template = $this->prepareTemplate('list');
         $template->cart = $this->cart;
         $template->render();
+    }
+
+    /**
+     * @throws \Nette\Application\AbortException
+     */
+    public function handleConfirm(): void {
+        $unavailableProducts = [];
+
+        //check if products out of stock
+        foreach ($this->cart->getCartItems() as $cartItem) {
+            if ($cartItem->count > $cartItem->product->stock) {
+                array_push($unavailableProducts, $cartItem->product);
+            }
+        }
+
+        if (count($unavailableProducts) > 0) {
+            $this->presenter->flashMessage($this->createOutOfStockProductsErrorMessage($unavailableProducts));
+            $this->redirect('this');
+        }
+
+        //check if products already reserved
+        foreach ($this->cart->getCartItems() as $cartItem) {
+            $this->reservedProductsFacade->deleteOldReservedItems();
+            $product = $cartItem->product;
+            $reservedProducts = $this->reservedProductsFacade->getReservedProductsByProduct($product);
+            if ($reservedProducts) {
+
+                $count = 0;
+                foreach ($reservedProducts as $reservedProduct) {
+                    if ($reservedProduct->cart->cartId != $this->cart->cartId) {
+                        $count = $count + $reservedProduct->count;
+                    }
+                }
+                if ($count >= $cartItem->count) {
+                    array_push($unavailableProducts, $product);
+                }
+            }
+        }
+
+        if (count($unavailableProducts) > 0) {
+            $this->presenter->flashMessage($this->createReservedProductsErrorMessage($unavailableProducts));
+            $this->redirect('this');
+        } else {
+            $this->reservedProductsFacade->reserveCartItems($this->cart);
+            $this->presenter->redirect("Order:default");
+        }
+
     }
 
     public function handleRemove($cartItemId) {
@@ -85,10 +134,12 @@ class CartControl extends Control {
      * @param User $user
      * @param Session $session
      * @param CartFacade $cartFacade
+     * @param ReservedProductsFacade $reservedProductsFacade
      */
-    public function __construct(User $user, Session $session, CartFacade $cartFacade) {
+    public function __construct(User $user, Session $session, CartFacade $cartFacade, ReservedProductsFacade $reservedProductsFacade) {
         $this->user = $user;
         $this->cartFacade = $cartFacade;
+        $this->reservedProductsFacade = $reservedProductsFacade;
         $this->cartSession = $session->getSection('cart');
         $this->cart = $this->prepareCart();
     }
@@ -159,6 +210,26 @@ class CartControl extends Control {
         $this->cartSession->set('cartId', $cart->cartId);
 
         return $cart;
+    }
+
+    private function createOutOfStockProductsErrorMessage($products) {
+        $message = "";
+        foreach ($products as $unavailableProduct) {
+            $message .= "Některé z vybraných produktů jsou nedostupné skladem: \n";
+            $message .= $unavailableProduct->title . " ";
+        }
+        return $message;
+    }
+
+    private function createReservedProductsErrorMessage($products): string {
+        $message = "";
+        foreach ($products as $unavailableProduct) {
+            $message .= "Některé z vybraných produktů jsou rezervované jiným uživatelem: \n";
+            $message .= $unavailableProduct->title . " ";
+            $availableCount = $this->reservedProductsFacade->getProductAvailableCount($unavailableProduct);
+            $message .= "dostupnost " . $availableCount . "\n";
+        }
+        return $message;
     }
 
     /**

@@ -47,6 +47,7 @@ services:
 	- App\Model\Facades\UsersFacade
 	- App\Model\Facades\CartFacade
 	- App\Model\Facades\ObjednavkaFacade
+	- App\Model\Facades\ReservedProductsFacade
 
 	- App\Model\Repositories\CategoryRepository
 	- App\Model\Repositories\ForgottenPasswordRepository
@@ -59,3 +60,4 @@ services:
 	- App\Model\Repositories\CartItemRepository
 	- App\Model\Repositories\ObjednavkaRepository
 	- App\Model\Repositories\ObjednavkaItemRepository
+	- App\Model\Repositories\ReservedProductRepository
