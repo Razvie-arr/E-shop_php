@@ -56,20 +56,22 @@ class ObjednavkaEditForm extends Form {
         $this->addText('objednavkaName', 'Jméno')
             ->setMaxLength(40);
 
-        $this->addText('objednavkaEmail', 'Email')
+        $this->addEmail('objednavkaEmail', 'Email')
             ->setMaxLength(255);
 
         $this->addText('objednavkaAddress', 'Adresa')
             ->setMaxLength(512);
 
         $this->addText('objednavkaPhone', 'Telefon')
-            ->setHtmlType('number')
+            ->setHtmlType('tel')
             ->addRule(Form::NUMERIC, 'Musíte zadat číslo.')
+            ->setMaxLength(9)
             ->setRequired('Musíte zadat telefon objednávky');
 
         $this->addText('objednavkaPrice', 'Cena')
             ->setHtmlType('number')
             ->addRule(Form::NUMERIC, 'Musíte zadat číslo.')
+            ->addRule(Form:: Range,'Zadejte prosím reálnou cenu.', [1, 100000000])
             ->setRequired('Musíte zadat cenu objednávky');//tady by mohly být další kontroly pro min, max atp.
 
         $this->addCheckbox('paid', 'Zaplaceno')
